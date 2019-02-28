@@ -2,12 +2,20 @@
     "name": "Extensibility",
     "version": "1.0",
     "description": "HTML accessibility checker",
-    "permissions": ["activeTab", "declarativeContent", "storage", "<all_urls>", "tabs"],
+    "permissions": [
+        "activeTab",
+        "declarativeContent",
+        "storage",
+        "<all_urls>",
+        "tabs"
+    ],
     "background": {
-        "scripts": ["background.js"],
+        "scripts": [
+            "background.js"
+        ],
         "persistent": false
     },
-    "page_action": {
+    "browser_action": {
         "default_popup": "popup.html",
         "default_icon": {
             "16": "images/get_started16.png",
@@ -21,15 +29,14 @@
         "32": "images/get_started32.png",
         "48": "images/get_started48.png",
         "128": "images/get_started128.png"
-      },
-    "web_accessible_resources": ["images/price-tag.png", "images/labelmissing.png", "images/movie.png", "images/audio.png", "images/has-price-tag.png"],
+    },
+    "web_accessible_resources": [
+        "images/price-tag.png",
+        "images/labelmissing.png",
+        "images/movie.png",
+        "images/audio.png",
+        "images/has-price-tag.png"
+    ],
     "options_page": "options.html",
-    "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-        "css": ["content.css"],
-      "js": ["contentScript.js"]
-    }
-  ],
     "manifest_version": 2
 }
