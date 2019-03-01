@@ -1,6 +1,13 @@
-console.log("contentScript entered");
+let child_list = [].slice.call(document.children);
 
-// checks for header tags
+while (child_list && child_list[0]){
+  child_list[0].setAttribute('style', 'color:black !important; background-color:black !important; border-color:black !important');
+  for (let child of child_list[0].children) {
+    child_list.push(child);
+  }
+  child_list.shift()
+}
+
 let h1 = document.getElementsByTagName('h1');
 let h2 = document.getElementsByTagName('h2');
 let h3 = document.getElementsByTagName('h3');
@@ -8,61 +15,126 @@ let h4 = document.getElementsByTagName('h4');
 let h5 = document.getElementsByTagName('h5');
 let h6 = document.getElementsByTagName('h6');
 
-console.log("header 1", h1)
-console.log("header 2", h2)
-console.log("header 3", h3)
-console.log("header 4", h4)
-console.log("header 5", h5)
-console.log("header 6", h6)
+h1_children = []
+for (let h of h1) {
+  h1_children.push(h)
+  while (h1_children && h1_children[0]){
+    h1_children[0].style.color = "white";
+    for (let child of h1_children[0].children){
+      h1_children.push(child)
+    }
+    h1_children.shift()
+  }
+}
+h2_children = []
+for (let h of h2) {
+  h2_children.push(h)
+  while (h2_children && h2_children[0]){
+    h2_children[0].style.color = "white";
+    for (let child of h2_children[0].children){
+      h2_children.push(child)
+    }
+    h2_children.shift()
+  }
+}
+h3_children = []
+for (let h of h3) {
+  h3_children.push(h)
+  while (h3_children && h3_children[0]){
+    h3_children[0].style.color = "white";
+    for (let child of h3_children[0].children){
+      h3_children.push(child)
+    }
+    h3_children.shift()
+  }
+}
+h4_children = []
+for (let h of h4) {
+  h4_children.push(h)
+  while (h4_children && h4_children[0]){
+    h4_children[0].style.color = "white";
+    for (let child of h4_children[0].children){
+      h4_children.push(child)
+    }
+    h4_children.shift()
+  }
+}
+h5_children = []
+for (let h of h5) {
+  h5_children.push(h)
+  while (h5_children && h5_children[0]){
+    h5_children[0].style.color = "white";
+    for (let child of h5_children[0].children){
+      h5_children.push(child)
+    }
+    h5_children.shift()
+  }
+}
+h6_children = []
+for (let h of h6) {
+  h6_children.push(h)
+  while (h6_children && h6_children[0]){
+    h6_children[0].style.color = "white";
+    for (let child of h6_children[0].children){
+      h6_children.push(child)
+    }
+    h6_children.shift()
+  }
+}
 
-// checks for links
 let links = document.getElementsByTagName('a');
 
-console.log("links", links);
+link_children = []
+for (let link of links) {
+  link_children.push(link)
+  while (link_children && link_children[0]){
+    link_children[0].style.color = "lightblue";
 
-//checks for images without alternative text
+    for (let link_child of link_children[0].children){
+      link_children.push(link_child)
+    }
+    link_children.shift()
+  }
+}
+
 let images = document.querySelectorAll('img');
 
-console.log("images", images)
 for (let image of images){
-  console.log("image", image)
   let image_alt = image.getAttribute('alt');
 
   if (!image_alt) {
-    console.log("no alternative text exists");
-    image.innerHTML = "<img class=\"label_tag\" width= \"30\" height= \"30\" src=" + chrome.extension.getURL('images/price-tag.png') + " />" + image.innerHTML
+    image.src = chrome.extension.getURL('images/price-tag.png');
+  }
+  else {
+    let image_replacement = document.createElement("div");
+    image_replacement.appendChild(document.createTextNode(image_alt));
+    image_replacement.style.color = "white"
+    image.replaceWith(image_replacement);
   }
 };
 
 // checks for video tag
 let videos = document.getElementsByTagName('video');
 
-console.log("videos", videos)
 for (let video of videos) {
-  console.log("video", video)
   video.innerHTML = "<img class=\"label_tag\" width= \"30\" height= \"30\" src=" + chrome.extension.getURL('images/movie.png') + " />" + video.innerHTML;
 }
 
 // checks for audio tag
 let audios = document.getElementsByTagName('audio');
 
-console.log("audios", audios)
 for (let audio of audios) {
-  console.log("audio", audio)
   audio.innerHTML = "<img class=\"label_tag\" width= \"30\" height= \"30\" src=" + chrome.extension.getURL('images/audio.png') + " />" + audio.innerHTML
 }
 
 // checks for buttons without labels
 let buttons = document.getElementsByTagName('button');
 
-console.log("buttons", buttons)
 for (let button of buttons){
-  console.log("button", button)
   let button_label = button.getAttribute('label');
   let button_aria_label = button.getAttribute('aria-label');
 
   if (!button_label && !button_aria_label) {
-    console.log("no label exists");
     button.innerHTML = "<img class=\"label_tag\" width= \"30\" height= \"30\" src=" + chrome.extension.getURL('images/price-tag.png') + " />" + button.innerHTML
   }
 };
@@ -70,16 +142,13 @@ for (let button of buttons){
 //checks for inputs without labels
 let inputs = document.getElementsByTagName('input');
 
-console.log(inputs)
 for (let input of inputs){
-  console.log("input", input)
   let input_label = input.getAttribute('label');
   let input_aria_label = input.getAttribute('aria-label');
 
   if (!input_label && !input_aria_label) {
     input_parent = input.parentElement;
     if (!input_parent.getElementsByTagName('label')){
-      console.log("no input label exists");
       input.innerHTML = "<img class=\"label_tag\" width= \"30\" height= \"30\" src=" + chrome.extension.getURL('images/price-tag.png') + " />" + input.innerHTML
     }
   }
