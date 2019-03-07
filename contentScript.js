@@ -1,7 +1,8 @@
 let child_list = [].slice.call(document.children);
 
 while (child_list && child_list[0]){
-  child_list[0].setAttribute('style', 'color:black !important; background-color:black !important; border-color:black !important');
+  //child_list[0].setAttribute('style', 'color:black !important; background-color:black !important; border-color:black !important');
+  child_list[0].style.backgroundColor = "black";
   for (let child of child_list[0].children) {
     child_list.push(child);
   }
@@ -108,7 +109,7 @@ for (let image of images){
   else {
     let image_replacement = document.createElement("div");
     image_replacement.appendChild(document.createTextNode(image_alt));
-    image_replacement.style.color = "white"
+    image_replacement.style.color = "orange"
     image.replaceWith(image_replacement);
   }
 };
