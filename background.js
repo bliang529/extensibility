@@ -1,16 +1,17 @@
 /*
-Make sure:
 Headers - white, Links - lightblue, Alt text - pink
 
-3. Video and Audio tags show up
-4. a Tags for images show up and are proportional
-    b Tags for images have on hover descriptions
-5. Input tags show up
+Priority:
 
-Make sure all background is black
-Make sure no styles are messed up
-Make sure headers / info persists
+1. Video, Audio, Input tags show up + look decent
+2. Tags for images have on hover descriptions
 
-Tabs for popup info
-Nicer button / separate button for black out?
+
+Nice to have:
+
+1. Toggle for -> Make sure all background is black
+2. Make sure no styles are messed up
+3. More popup info -> Tabs for popup info | Nicer popup design
+4. Nicer button / separate button for black out?
+
 */
