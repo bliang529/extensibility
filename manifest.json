@@ -37,6 +37,5 @@
         "images/audio.png",
         "images/has-price-tag.png"
     ],
-    "options_page": "options.html",
     "manifest_version": 2
 }

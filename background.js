@@ -11,7 +11,12 @@ Nice to have:
 
 1. Toggle for -> Make sure all background is black
 2. Make sure no styles are messed up
-3. More popup info -> Tabs for popup info | Nicer popup design
+3. More popup info -> Nicer popup design
 4. Nicer button / separate button for black out?
+
+Pie:
+
+1. Info is mapped on html
+2. Better icons
 
 */

@@ -85,6 +85,40 @@ search.onclick = function () {
 
 };
 
+function openCity(evt, cityName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+let tab1 = document.getElementById('tab1');
+let tab2 = document.getElementById('tab2');
+let tab3 = document.getElementById('tab3');
+
+tab1.onclick = function(event) {
+  openCity(event, 'London');
+}
+tab2.onclick = function(event) {
+  openCity(event, 'Paris');
+}
+tab3.onclick = function(event) {
+  openCity(event, 'Tokyo');
+}
 
 //
 // function colorLinks()
