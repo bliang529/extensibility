@@ -31,11 +31,7 @@
         "128": "images/get_started128.png"
     },
     "web_accessible_resources": [
-        "images/price-tag.png",
-        "images/labelmissing.png",
-        "images/movie.png",
-        "images/audio.png",
-        "images/has-price-tag.png"
+        "images/price-tag.png"
     ],
     "manifest_version": 2
 }

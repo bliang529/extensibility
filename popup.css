@@ -3,12 +3,11 @@ html {
   height: 500px;
 }
 
-label_img.afters:after {
-  content: "Label missing from button";
-  background-color: red;
-  padding: 5px;
-  display: block;
-  position: absolute;
+button {
+  outline: none;
+  width: 50%;
+  height: 50px;
+  padding: 0;
 }
 
 .tab {
@@ -26,6 +25,7 @@ label_img.afters:after {
   cursor: pointer;
   padding: 14px 16px;
   transition: 0.3s;
+  width: 50%;
 }
 
 /* Change background color of buttons on hover */
