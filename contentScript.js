@@ -452,8 +452,6 @@ function pageParse() {
     }
 
     let key = event.key || event.keyCode;
-    console.log(key);
-    speak(key);
 
     if (key === 'R' || key === 'r' || key === 82) {
       speak(document.activeElement.innerText);
