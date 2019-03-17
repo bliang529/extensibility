@@ -4,12 +4,8 @@ chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 });
 
 chrome.runtime.onMessage.addListener(
-  function (request, sender, sendResponse) {
-    console.log(sender.tab ?
-      "from a content script:" + sender.tab.url :
-      "from the extension");
+  function handle(request, sender, sendResponse) {
     if (request) {
-      console.log(request);
 
       headers = document.getElementById("Headers");
 
@@ -130,7 +126,6 @@ tab2.onclick = function (event) {
 }
 
 let toggleButton = document.getElementById('toggle');
-toggleButton.disabled = true;
 
 let search = document.getElementById('search');
 let messageSent = false;
@@ -141,7 +136,6 @@ search.onclick = function (){
         console.log("page info sent");
       });
       messageSent = true;
-      toggleButton.disabled = false;
     }
   });
 };
