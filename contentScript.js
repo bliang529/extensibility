@@ -88,7 +88,7 @@ function pageParse() {
 
   link_children = [];
   for (let link of links) {
-    if(link.innerText != "" && link.display != "none")
+    if (link.innerText != "" && link.display != "none")
       finalLinks.push(link);
 
     link_children.push(link);
@@ -262,6 +262,93 @@ function pageParse() {
     }
   };
 
+  return html_information;
+}
+
+console.log("running contentScript");
+
+if (!Boolean(document.getElementById('sent_already'))) {
+
+  console.log("adding listener");
+  chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+
+      if (request.pageInfo == "pageInfo") {
+        let sentAlready = document.getElementById('sent_already');
+
+        if (!Boolean(sentAlready)) {
+          chrome.runtime.sendMessage(pageParse(), function (response) {
+            console.log("page info received");
+          });
+        }
+
+        let nowSent = document.createElement("div");
+        nowSent.id = "sent_already";
+        nowSent.style.display = "none";
+
+        let shell = document.getElementsByTagName('html');
+        shell[0].appendChild(nowSent);
+
+        sendResponse({ farewell: "goodbye" });
+      }
+
+      if (request.toggle == "toggle") {
+        console.log("toggle received");
+
+        let blackoutAlready = document.getElementById('overlay_filter');
+        if (Boolean(blackoutAlready)) {
+          console.log("entered");
+          if (blackoutAlready.style.display == "none") {
+            blackoutAlready.style.display = "block";
+            console.log("none");
+          }
+          else {
+            blackoutAlready.style.display = "none";
+            console.log("block");
+          }
+        }
+        else {
+          let shell = document.getElementsByTagName('html');
+
+          let blackout = document.createElement("div");
+          blackout.id = "overlay_filter";
+          blackout.style.display = "block";
+
+          shell[0].appendChild(blackout);
+        }
+
+
+        /*
+        let shell = document.getElementsByTagName('html');
+  
+        shell_children = [];
+        for (let elem of shell) {
+          shell_children.push(elem);
+          while (shell_children && shell_children[0]) {
+            shell_children[0].style.backgroundColor = "black";
+            shell_children[0].style.borderColor = "black";
+            for (let child of shell_children[0].children) {
+              shell_children.push(child);
+            }
+            shell_children.shift();
+          }
+        }
+        */
+
+        sendResponse({ farewell: "goodbye" });
+      }
+    });
+
+
+  let links = document.getElementsByTagName('a');
+  let finalLinks = []
+
+  link_children = [];
+  for (let link of links) {
+    if (link.innerText != "" && link.display != "none")
+      finalLinks.push(link);
+  }
+  links = finalLinks
 
   function speak(text) {
     // Create a new instance of SpeechSynthesisUtterance.
@@ -279,6 +366,190 @@ function pageParse() {
     // Queue this utterance.
     window.speechSynthesis.speak(msg);
   }
+
+  document.addEventListener('keyup', function (event) {
+    if (event.defaultPrevented) {
+      return;
+    }
+
+
+    let h1 = document.getElementsByTagName('h1');
+    let h2 = document.getElementsByTagName('h2');
+    let h3 = document.getElementsByTagName('h3');
+    let h4 = document.getElementsByTagName('h4');
+    let h5 = document.getElementsByTagName('h5');
+    let h6 = document.getElementsByTagName('h6');
+
+    h1_children = [];
+
+    for (let h of h1) {
+      h.tabIndex = "-1";
+    }
+    for (let h of h2) {
+      h.tabIndex = "-1";
+    }
+    for (let h of h3) {
+      h.tabIndex = "-1";
+    }
+    for (let h of h4) {
+      h.tabIndex = "-1";
+    }
+    for (let h of h5) {
+      h.tabIndex = "-1";
+    }
+    for (let h of h6) {
+      h.tabIndex = "-1";
+    }
+
+    let key = event.key;
+
+    console.log(key);
+    console.log(h1);
+
+    if (key === '1' || key === 49) {
+      if (document.activeElement.tagName == "H1") {
+        h1_index = 0;
+        for (let header of h1) {
+          if (document.activeElement.isSameNode(header))
+            break;
+          else
+            h1_index++;
+        }
+        if (h1_index - 1 >= h1.length) {
+          console.log("header now focus", document.activeElement);
+          h1[0].focus();
+          console.log(document.activeElement);
+        }
+        else {
+          console.log("next now focus", document.activeElement);
+          h1[h1_index + 1].focus();
+          console.log(document.activeElement);
+        }
+      }
+      else if(Boolean(h1)) {
+        console.log("else", document.activeElement);
+        h1[0].focus();
+        console.log(document.activeElement);
+
+      }
+      if (document.activeElement.tagName == "H1") {
+        speak(document.activeElement.innerText);
+      }
+    }
+
+    else if (key === '2' || key === 50) {
+      if (document.activeElement.tagName == "H2") {
+        h2_index = 0;
+        for (let header of h2) {
+          if (document.activeElement.isSameNode(header))
+            break;
+          else
+            h2_index++;
+        }
+        if (h2_index - 1 >= h2.length)
+          h2[0].focus();
+        else
+          h2[h2_index + 1].focus();
+      }
+      else if(Boolean(h2)) {
+        h2[0].focus();
+      }
+      if (document.activeElement.tagName == "H2")
+        speak(document.activeElement.innerText);
+    }
+
+    else if (key === '3' || key === 51) {
+      if (document.activeElement.tagName == "H3") {
+        h3_index = 0;
+        for (let header of h3) {
+          if (document.activeElement.isSameNode(header))
+            break;
+          else
+            h3_index++;
+        }
+        if (h3_index - 1 >= h3.length)
+          h3[0].focus();
+        else
+          h3[h3_index + 1].focus();
+      }
+      else if(Boolean(h3)) 
+        h3[0].focus();
+      if (document.activeElement.tagName == "H3")
+        speak(document.activeElement.innerText);
+    }
+
+    else if (key === '4' || key === 52) {
+      if (document.activeElement.tagName == "H4") {
+        h4_index = 0;
+        for (let header of h4) {
+          if (document.activeElement.isSameNode(header))
+            break;
+          else
+            h4_index++;
+        }
+        if (h4_index - 1 >= h4.length)
+          h4[0].focus();
+        else
+          h4[h4_index + 1].focus();
+      }
+      else if(Boolean(h4))
+        h4[0].focus();
+      if (document.activeElement.tagName == "H4")
+        speak(document.activeElement.innerText);
+    }
+
+    else if (key === '5' || key === 53) {
+      if (document.activeElement.tagName == "H5") {
+        h5_index = 0;
+        for (let header of h5) {
+          if (document.activeElement.isSameNode(header))
+            break;
+          else
+            h5_index++;
+        }
+        if (h5_index - 1 >= h5.length)
+          h5[0].focus();
+        else
+          h5[h5_index + 1].focus();
+      }
+      else if(Boolean(h5))
+        h5[0].focus();
+      if (document.activeElement.tagName == "H5")
+        speak(document.activeElement.innerText);
+    }
+
+    if (key === '6' || key === 54) {
+      if (document.activeElement.tagName == "H6") {
+        h6_index = 0;
+        for (let header of h6) {
+          if (document.activeElement.isSameNode(header))
+            break;
+          else
+            h6_index++;
+        }
+        if (h6_index - 1 >= h6.length)
+          h6[0].focus();
+        else
+          h6[h6_index + 1].focus();
+      }
+      else if(Boolean(h6))
+        h6[0].focus();
+      if (document.activeElement.tagName == "H6")
+        speak(document.activeElement.innerText);
+    }
+  });
+
+  document.addEventListener('keyup', function (event) {
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    let key = event.key || event.keyCode;
+
+    if (key === 'R' || key === 'r' || key === 82) {
+      speak(document.activeElement.innerText);
+    }
+  });
 
   document.addEventListener('keyup', function (event) {
     if (event.defaultPrevented) {
@@ -317,192 +588,4 @@ function pageParse() {
     }
 
   });
-
-  document.addEventListener('keyup', function (event) {
-    if (event.defaultPrevented) {
-      return;
-    }
-
-    let key = event.key;
-
-    if (key === '1' || key === 49) {
-      if (document.activeElement.tagName == "H1") {
-        h1_index = 0;
-        for (let header of h1) {
-          if (document.activeElement.isSameNode(header))
-            break;
-          else
-            h1_index++;
-        }
-        if (h1_index - 1 >= h1.length)
-          h1[0].focus();
-        else
-          h1[h1_index + 1].focus();
-      }
-      else
-        h1[0].focus();
-
-      speak(document.activeElement.innerText);
-    }
-
-    else if (key === '2' || key === 50) {
-      if (document.activeElement.tagName == "H2") {
-        h2_index = 0;
-        for (let header of h2) {
-          if (document.activeElement.isSameNode(header))
-            break;
-          else
-            h2_index++;
-        }
-        if (h2_index - 1 >= h2.length)
-          h2[0].focus();
-        else
-          h2[h2_index + 1].focus();
-      }
-      else
-        h2[0].focus();
-
-      speak(document.activeElement.innerText);
-    }
-
-    else if (key === '3' || key === 51) {
-      if (document.activeElement.tagName == "H3") {
-        h3_index = 0;
-        for (let header of h3) {
-          if (document.activeElement.isSameNode(header))
-            break;
-          else
-            h3_index++;
-        }
-        if (h3_index - 1 >= h3.length)
-          h3[0].focus();
-        else
-          h3[h3_index + 1].focus();
-      }
-      else
-        h3[0].focus();
-
-      speak(document.activeElement.innerText);
-    }
-
-    else if (key === '4' || key === 52) {
-      if (document.activeElement.tagName == "H4") {
-        h4_index = 0;
-        for (let header of h4) {
-          if (document.activeElement.isSameNode(header))
-            break;
-          else
-            h4_index++;
-        }
-        if (h4_index - 1 >= h4.length)
-          h4[0].focus();
-        else
-          h4[h4_index + 1].focus();
-      }
-      else
-        h4[0].focus();
-
-      speak(document.activeElement.innerText);
-    }
-
-    else if (key === '5' || key === 53) {
-      if (document.activeElement.tagName == "H5") {
-        h5_index = 0;
-        for (let header of h5) {
-          if (document.activeElement.isSameNode(header))
-            break;
-          else
-            h5_index++;
-        }
-        if (h5_index - 1 >= h5.length)
-          h5[0].focus();
-        else
-          h5[h5_index + 1].focus();
-      }
-      else
-        h5[0].focus();
-
-      speak(document.activeElement.innerText);
-    }
-
-    if (key === '6' || key === 54) {
-      if (document.activeElement.tagName == "H6") {
-        h6_index = 0;
-        for (let header of h6) {
-          if (document.activeElement.isSameNode(header))
-            break;
-          else
-            h6_index++;
-        }
-        if (h6_index - 1 >= h6.length)
-          h6[0].focus();
-        else
-          h6[h6_index + 1].focus();
-      }
-      else
-        h6[0].focus();
-
-      speak(document.activeElement.innerText);
-    }
-  });
-
-  document.addEventListener('keyup', function (event) {
-    if (event.defaultPrevented) {
-      return;
-    }
-
-    let key = event.key || event.keyCode;
-
-    if (key === 'R' || key === 'r' || key === 82) {
-      speak(document.activeElement.innerText);
-    }
-  });
-
-  return html_information;
 }
-
-console.log("running contentScript");
-
-chrome.runtime.onMessage.addListener(
-  function (request, sender, sendResponse) {
-
-    if (request.pageInfo == "pageInfo") {
-      let sentAlready = document.getElementById('sent_already');
-
-      if (!Boolean(sentAlready)) {
-        chrome.runtime.sendMessage(pageParse(), function (response) {
-          console.log("page info received");
-        });
-      }
-
-      let nowSent = document.createElement("div");
-      nowSent.id = "sent_already";
-      nowSent.style.display = "none";
-
-      let shell = document.getElementsByTagName('html');
-      shell[0].appendChild(nowSent);
-
-      sendResponse({ farewell: "goodbye" });
-    }
-
-    if (request.toggle == "toggle") {
-      console.log("toggle received");
-
-      let shell = document.getElementsByTagName('html');
-
-      shell_children = [];
-      for (let elem of shell) {
-        shell_children.push(elem);
-        while (shell_children && shell_children[0]) {
-          shell_children[0].style.backgroundColor = "black";
-          shell_children[0].style.borderColor = "black";
-          for (let child of shell_children[0].children) {
-            shell_children.push(child);
-          }
-          shell_children.shift();
-        }
-      }
-
-      sendResponse({ farewell: "goodbye" });
-    }
-  });
